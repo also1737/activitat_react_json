@@ -1,0 +1,56 @@
+:root {
+    --color-resaltado: rgb(0, 171, 238);
+}
+
+body {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-color: #222;
+    color: white;
+    font-size: 0.8em;
+}
+
+h1 {
+    text-align: center;
+    margin: 70px auto;
+    font-size: 3em;
+}
+
+button {
+    margin: 5px;
+    color: white;
+    background-color: var(--color-resaltado);
+    border: none;
+    padding: 10px 20px;
+}
+
+span {
+    margin: 5px;
+}
+
+.caixa {
+    background-color: #333;
+    min-width: 800px;
+    width: 50%;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid white;
+}
+
+.ports {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+}
+
+.azul {
+    color: var(--color-resaltado);
+}
+
+.grande {
+    font-size: 1.5em;
+}
+
+#map > * {
+    height: 500px;
+    width: 800px;
+}
