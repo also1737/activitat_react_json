@@ -3,7 +3,7 @@ import { MapContainer, Marker, Popup, TileLayer} from 'react-leaflet'
 import { endolls } from "./generar.ts";
 import { Localitzacio } from "./objetos.ts";
 import './index.css';
-import { SetStateAction, useState } from "react";
+import { ReactNode, SetStateAction, useState } from "react";
 import { LatLngExpression } from 'leaflet';
 
 function alternarRender(a: { id?: string; mostrar: any; }, setA: { (value: SetStateAction<{ id: string; mostrar: boolean; }>): void; (arg0: { id: any; mostrar: boolean; }): void; }, endoll: Localitzacio) {
@@ -13,6 +13,15 @@ function alternarRender(a: { id?: string; mostrar: any; }, setA: { (value: SetSt
         setA({id: endoll.id, mostrar: true})
     }
 }
+
+/*function BarraCerca() {
+    return (
+        <div>
+            <p>Ordenar per:</p>
+            <button onClick={() => </div>ordenarPerCodiPostal()}>Codi Postal</button>
+        </div>
+    );
+}*/
 
 interface PropsPort {
     ports: { id?: string; mostrar: any; },
@@ -92,8 +101,27 @@ function BotonRender({estado, setEstado, endoll, texto}: PropsBoton) {
     );
 }
 
+/*interface PropsTaulaPunts {
+    endolls: Localitzacio,
+
+}*/
+
+function TaulaPuntsRecarrega(endolls: Localitzacio[]) {
+    const caixes: ReactNode[] = [];
+
+    endolls.map( (endoll) => {
+        caixes.push(
+            <PuntRecarrega 
+                {...endoll}/>
+        );
+    });
+
+    return(
+        <div>{caixes}</div>
+    );
+}
+
 function PuntRecarrega(endoll: Localitzacio) {
-    
     const [ports, setPorts] = useState({
         id: "",
         mostrar: false
@@ -104,20 +132,19 @@ function PuntRecarrega(endoll: Localitzacio) {
     });
 
     return(
-        
-            <div className="caixa" key={endoll.id}>
-                <InfoPunt {...endoll}/>
-                <BotonRender estado={ports} setEstado={setPorts} endoll={endoll} texto={"Ports"}/>
-                <BotonRender estado={mapa} setEstado={setMapa} endoll={endoll} texto={"Mapa"}/>
+        <div className="caixa" key={endoll.id}>
+            <InfoPunt {...endoll}/>
+            <BotonRender estado={ports} setEstado={setPorts} endoll={endoll} texto={"Ports"}/>
+            <BotonRender estado={mapa} setEstado={setMapa} endoll={endoll} texto={"Mapa"}/>
                 
-                <Port 
-                    endoll={endoll}
-                    ports={ports} />
-                <Mapa 
-                    endoll={endoll}
-                    mapa={mapa}
-                />
-            </div>
+            <Port 
+                endoll={endoll}
+                ports={ports} />
+            <Mapa 
+                endoll={endoll}
+                mapa={mapa}
+            />
+        </div>
     
     );
 }
@@ -138,27 +165,15 @@ function InfoPunt(endoll: Localitzacio) {
 
 export default function Endolls() {
 
-    function ordenarPerCodiPostal() {
+
+    /*function ordenarPerCodiPostal() {
         endolls.sort((a, b) => Number.parseInt(a.address.postal_code) - Number.parseInt(b.address.postal_code))
-    }
+    }*/
 
     return (
         <>
             <h1 className="azul">Punts de recàrrega elèctrica de Barcelona</h1>
-            
-            <div>
-                <p>Ordenar per:</p>
-                <button onClick={() => ordenarPerCodiPostal()}>Codi Postal</button>
-            </div>
-
-            {
-                endolls.map( endoll =>
-                    <div>
-                        <PuntRecarrega
-                        {...endoll} />
-                    </div>
-            )}
-            
+            <TaulaPuntsRecarrega {...endolls} />
         </>
         
     );  
