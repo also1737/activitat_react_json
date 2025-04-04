@@ -6,8 +6,94 @@ import './index.css';
 import { SetStateAction, useState } from "react";
 import { LatLngExpression } from 'leaflet';
 
-export default function Endolls() {
+function alternarRender(a: { id?: string; mostrar: any; }, setA: { (value: SetStateAction<{ id: string; mostrar: boolean; }>): void; (arg0: { id: any; mostrar: boolean; }): void; }, endoll: Localitzacio) {
+    if (a.mostrar) { 
+        setA({id: endoll.id, mostrar: false}) 
+    } else {
+        setA({id: endoll.id, mostrar: true})
+    }
+}
 
+interface PropsPort {
+    ports: { id?: string; mostrar: any; },
+    endoll: Localitzacio
+}
+function Port({endoll, ports}: PropsPort) {
+
+    if (ports.mostrar == true && ports.id == endoll.id) {
+        const stations = endoll.stations;
+        return (
+            <div>
+                <p className='azul grande'>Ports:</p>
+                    <div>
+                    {stations.map( s => 
+                        <div /*className="caixa"*/ key={s.id}>
+                            <p>Label: {s.label}</p>
+                            <p>Ports:</p>
+                            <ul>{s.ports.map( port =>
+                                <li key={port.id}>
+                                    <span>Potència: {port.power_kw} KW</span>
+                                    <span>{port.notes}</span>
+                                </li>
+                            )}
+                            </ul>
+                        </div>
+            
+                    )}
+                    </div>
+            </div>
+        )
+    }
+}
+
+interface PropsMapa {
+    mapa: { id?: string; mostrar: any; },
+    endoll: Localitzacio
+}
+function Mapa({endoll, mapa}: PropsMapa) {
+
+    const position: LatLngExpression = [
+        endoll.coordinates.latitude,
+        endoll.coordinates.longitude
+    ];
+
+    if (mapa.mostrar == true && mapa.id == endoll.id) {
+        return (
+            <>
+                <p className='azul grande'>Mapa:</p>
+                <div id="map">
+                    <MapContainer center={position} zoom={16} scrollWheelZoom={false}>
+                        <TileLayer
+                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        />
+                        <Marker position={position}>
+                            <Popup>
+                                Localització de punt de recàrrega
+                            </Popup>
+                        </Marker>
+                    </MapContainer>
+                </div>
+            </>
+        )
+    }
+}
+
+interface PropsBoton {
+    estado: { id: string; mostrar: boolean; },
+    setEstado: React.Dispatch<SetStateAction<{ id: string; mostrar: boolean; }>>,
+    endoll: Localitzacio,
+    texto: string
+}
+
+function BotonRender({estado, setEstado, endoll, texto}: PropsBoton) {
+    return (
+        <button onClick={() => alternarRender(estado, setEstado, endoll)}>{texto}</button>
+    );
+}
+
+function PuntRecarrega(endoll: Localitzacio) {
+    
     const [ports, setPorts] = useState({
         id: "",
         mostrar: false
@@ -17,91 +103,43 @@ export default function Endolls() {
         mostrar: false
     });
 
-    const notes_port = new Map();
-    notes_port.set("MOTORCYCLE_ONLY", "Nomès per a motos")
+    return(
+        
+            <div className="caixa" key={endoll.id}>
+                <InfoPunt {...endoll}/>
+                <BotonRender estado={ports} setEstado={setPorts} endoll={endoll} texto={"Ports"}/>
+                <BotonRender estado={mapa} setEstado={setMapa} endoll={endoll} texto={"Mapa"}/>
+                
+                <Port 
+                    endoll={endoll}
+                    ports={ports} />
+                <Mapa 
+                    endoll={endoll}
+                    mapa={mapa}
+                />
+            </div>
+    
+    );
+}
+
+function InfoPunt(endoll: Localitzacio) {
+    return (
+        <>
+            <p className="azul grande">{endoll.address.address_string}, <b>{endoll.address.postal_code}</b></p>
+            <p >Proveidor: {endoll.network_name}</p>
+
+            {endoll.onstreet_location == false ?
+                <p>{endoll.stations[0].notes}</p> :
+                <p>Sobre carrer</p>
+            }
+        </>
+    );
+}
+
+export default function Endolls() {
 
     function ordenarPerCodiPostal() {
         endolls.sort((a, b) => Number.parseInt(a.address.postal_code) - Number.parseInt(b.address.postal_code))
-    }
-    function alternarRender(a: { id?: string; mostrar: any; }, setA: { (value: SetStateAction<{ id: string; mostrar: boolean; }>): void; (arg0: { id: any; mostrar: boolean; }): void; }, endoll: Localitzacio) {
-        if (a.mostrar) { 
-            setA({id: endoll.id, mostrar: false}) 
-        } else {
-            setA({id: endoll.id, mostrar: true})
-        }
-    }
-    function mostrarPorts(endoll: Localitzacio) {
-
-        const stations = endoll.stations;
-        console.log(endoll.id);
-        return (
-            <div>
-                {stations.map( s => 
-                    <div /*className="caixa"*/ key={s.id}>
-                        <p>Label: {s.label}</p>
-                        <p>Ports:</p>
-                        <ul>{s.ports.map( port =>
-                            <li key={port.id}>
-                                <span>Potència: {port.power_kw} KW</span>
-                                <span>{notes_port.get(port.notes)}</span>
-                            </li>
-                        )}
-                        </ul>
-                    </div>
-                
-                )}
-            </div>
-        )
-    }
-    function mostrarMapa(endoll: Localitzacio) {
-
-        const position: LatLngExpression = [
-            endoll.coordinates.latitude,
-            endoll.coordinates.longitude
-        ];
-
-        return (
-            <MapContainer center={position} zoom={16} scrollWheelZoom={false}>
-                <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
-                <Marker position={position}>
-                <Popup>
-                    Localització de punt de recàrrega
-                </Popup>
-                </Marker>
-            </MapContainer>
-        )
-    }
-    function mostrarEndolls(endolls: Localitzacio[]) {
-        return(
-            endolls.map(endoll => 
-                <div className="caixa" key={endoll.id}>
-                    <p className="azul grande">{endoll.address.address_string}, <b>{endoll.address.postal_code}</b></p>
-                    <p >Proveidor: {endoll.network_name}</p>
-
-                    {endoll.onstreet_location == false ?
-                        <p>{endoll.stations[0].notes}</p> :
-                        <p>Sobre carrer</p>
-                    }
-                    <button onClick={() => alternarRender(ports, setPorts, endoll)}>Ports</button>
-                    <button onClick={() => alternarRender(mapa, setMapa, endoll)}>Mapa</button>
-                    {ports.mostrar == true && ports.id == endoll.id &&
-                        <div>
-                            <p className='azul grande'>Ports:</p>
-                            {mostrarPorts(endoll)}
-                        </div>
-                    }
-                    {mapa.mostrar == true && mapa.id == endoll.id &&
-                        <div>                      
-                            <p className='azul grande'>Mapa:</p>
-                            <div id="map">{mostrarMapa(endoll)}</div>
-                        </div>
-                    }
-                </div>
-        )
-        );
     }
 
     return (
@@ -113,7 +151,13 @@ export default function Endolls() {
                 <button onClick={() => ordenarPerCodiPostal()}>Codi Postal</button>
             </div>
 
-            {mostrarEndolls(endolls)}
+            {
+                endolls.map( endoll =>
+                    <div>
+                        <PuntRecarrega
+                        {...endoll} />
+                    </div>
+            )}
             
         </>
         
