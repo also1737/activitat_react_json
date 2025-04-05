@@ -14,14 +14,36 @@ function alternarRender(a: { id?: string; mostrar: any; }, setA: { (value: SetSt
     }
 }
 
-/*function BarraCerca() {
+interface PropsBarraCerca {
+    ordenar: any
+    setOrdenar: any
+    cerca: any
+    setCerca: any
+}
+
+function BarraCerca({ordenar, setOrdenar, cerca, setCerca}: PropsBarraCerca) {
+
     return (
-        <div>
-            <p>Ordenar per:</p>
-            <button onClick={() => </div>ordenarPerCodiPostal()}>Codi Postal</button>
-        </div>
-    );
-}*/
+        <form className="caixa">
+            <input 
+                type="search"
+                value={cerca}
+                placeholder="Cerca adreces..."
+                onChange={(e) => setCerca(e.target.value)}
+            />
+            <br />
+            <span>Filtres:</span>
+            <label>
+                Ordenar per Codi Postal
+                <input
+                    type="checkbox"
+                    checked={ordenar}
+                    onChange={(e) => setOrdenar(e.target.checked)}
+                />
+            </label>
+        </form>
+    )
+}
 
 interface PropsPort {
     ports: { id?: string; mostrar: any; },
@@ -94,33 +116,42 @@ interface PropsBoton {
     endoll: Localitzacio,
     texto: string
 }
-
 function BotonRender({estado, setEstado, endoll, texto}: PropsBoton) {
     return (
         <button onClick={() => alternarRender(estado, setEstado, endoll)}>{texto}</button>
     );
 }
 
-/*interface PropsTaulaPunts {
-    endolls: Localitzacio,
-
-}*/
-
-function TaulaPuntsRecarrega(endolls: Localitzacio[]) {
+interface PropsTaulaPunts {
+    endolls: Localitzacio[],
+    ordenar: boolean,
+    cerca: string
+}
+function TaulaPuntsRecarrega({endolls, ordenar, cerca}: PropsTaulaPunts) {
+    
     const caixes: ReactNode[] = [];
+    const endollsCopia: Localitzacio[] = [...endolls];
+    
+    if (ordenar) {
+        endollsCopia.sort((a, b) => Number.parseInt(a.address.postal_code) - Number.parseInt(b.address.postal_code))
+    }
 
-    endolls.map( (endoll) => {
+
+    endollsCopia.forEach( (endoll) => {
+        
+        if (endoll.address.address_string.indexOf(cerca) === -1) return;
+        
         caixes.push(
             <PuntRecarrega 
-                {...endoll}/>
-        );
+                {...endoll}
+                />
+        )
     });
 
     return(
         <div>{caixes}</div>
     );
 }
-
 function PuntRecarrega(endoll: Localitzacio) {
     const [ports, setPorts] = useState({
         id: "",
@@ -148,7 +179,6 @@ function PuntRecarrega(endoll: Localitzacio) {
     
     );
 }
-
 function InfoPunt(endoll: Localitzacio) {
     return (
         <>
@@ -165,15 +195,26 @@ function InfoPunt(endoll: Localitzacio) {
 
 export default function Endolls() {
 
+    const [ordenar, setOrdenar] = useState(false);
+    const [cerca, setCerca] = useState('');
 
-    /*function ordenarPerCodiPostal() {
-        endolls.sort((a, b) => Number.parseInt(a.address.postal_code) - Number.parseInt(b.address.postal_code))
-    }*/
+    console.log("es array: " + Array.isArray(endolls) );
 
     return (
         <>
             <h1 className="azul">Punts de recàrrega elèctrica de Barcelona</h1>
-            <TaulaPuntsRecarrega {...endolls} />
+            <BarraCerca 
+                ordenar={ordenar}
+                setOrdenar={setOrdenar}
+                cerca={cerca}
+                setCerca={setCerca}
+
+            />
+            <TaulaPuntsRecarrega 
+                endolls={endolls}
+                ordenar={ordenar}
+                cerca={cerca}
+            />
         </>
         
     );  

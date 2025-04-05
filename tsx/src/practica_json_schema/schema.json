@@ -1,314 +1,320 @@
 {
-  "$ref": "#/definitions/Localitzacio",
+  "$ref": "#/definitions/locations",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "definitions": {
-    "Localitzacio": {
+    "gelfs_version": {
       "additionalProperties": false,
-      "properties": {
-        "access_restriction": {
-          "type": "string"
-        },
-        "address": {
-          "additionalProperties": false,
-          "properties": {
-            "address_string": {
-              "type": "string"
-            },
-            "admin_area": {
-              "type": "string"
-            },
-            "country_code": {
-              "type": "string"
-            },
-            "language_code": {
-              "type": "string"
-            },
-            "locality": {
-              "type": "string"
-            },
-            "postal_code": {
-              "type": "string"
-            }
+      "type": "string"
+    },
+    "locations": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "access_restriction": {
+            "type": "string"
           },
-          "required": [
-            "address_string",
-            "locality",
-            "postal_code",
-            "country_code",
-            "language_code"
-          ],
-          "type": "object"
-        },
-        "contact": {
-          "additionalProperties": false,
-          "properties": {
-            "operator_phone": {
-              "type": "string"
-            },
-            "operator_website": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "operator_phone",
-            "operator_website"
-          ],
-          "type": "object"
-        },
-        "coordinates": {
-          "additionalProperties": false,
-          "properties": {
-            "latitude": {
-              "type": "number"
-            },
-            "longitude": {
-              "type": "number"
-            }
-          },
-          "required": [
-            "latitude",
-            "longitude"
-          ],
-          "type": "object"
-        },
-        "host": {
-          "additionalProperties": false,
-          "properties": {
-            "address": {
-              "additionalProperties": false,
-              "properties": {
-                "address_string": {
-                  "type": "string"
-                },
-                "admin_area": {
-                  "type": "string"
-                },
-                "country_code": {
-                  "type": "string"
-                },
-                "language_code": {
-                  "type": "string"
-                },
-                "locality": {
-                  "type": "string"
-                },
-                "postal_code": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "address_string",
-                "locality",
-                "postal_code",
-                "country_code",
-                "language_code"
-              ],
-              "type": "object"
-            },
-            "contact": {
-              "additionalProperties": false,
-              "properties": {
-                "operator_phone": {
-                  "type": "string"
-                },
-                "operator_website": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "operator_phone",
-                "operator_website"
-              ],
-              "type": "object"
-            },
-            "name": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "name",
-            "address",
-            "contact"
-          ],
-          "type": "object"
-        },
-        "id": {
-          "type": "string"
-        },
-        "language_code": {
-          "type": "string"
-        },
-        "last_updated": {
-          "type": "string"
-        },
-        "network_brand_name": {
-          "type": "string"
-        },
-        "network_name": {
-          "type": "string"
-        },
-        "onstreet_location": {
-          "type": "boolean"
-        },
-        "opening_hours": {
-          "items": {
+          "address": {
             "additionalProperties": false,
             "properties": {
-              "hour_begin": {
+              "address_string": {
                 "type": "string"
               },
-              "hour_end": {
+              "admin_area": {
                 "type": "string"
               },
-              "weekday_begin": {
+              "country_code": {
+                "type": "string"
+              },
+              "language_code": {
+                "type": "string"
+              },
+              "locality": {
+                "type": "string"
+              },
+              "postal_code": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "address_string",
+              "locality",
+              "postal_code",
+              "country_code",
+              "language_code"
+            ],
+            "type": "object"
+          },
+          "contact": {
+            "additionalProperties": false,
+            "properties": {
+              "operator_phone": {
+                "type": "string"
+              },
+              "operator_website": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "operator_phone",
+              "operator_website"
+            ],
+            "type": "object"
+          },
+          "coordinates": {
+            "additionalProperties": false,
+            "properties": {
+              "latitude": {
                 "type": "number"
               },
-              "weekday_end": {
+              "longitude": {
                 "type": "number"
               }
             },
             "required": [
-              "weekday_begin",
-              "weekday_end",
-              "hour_begin",
-              "hour_end"
+              "latitude",
+              "longitude"
             ],
             "type": "object"
           },
-          "type": "array"
-        },
-        "stations": {
-          "items": {
+          "host": {
             "additionalProperties": false,
             "properties": {
-              "coordinates": {
+              "address": {
                 "additionalProperties": false,
                 "properties": {
-                  "latitude": {
-                    "type": "number"
+                  "address_string": {
+                    "type": "string"
                   },
-                  "longitude": {
-                    "type": "number"
+                  "admin_area": {
+                    "type": "string"
+                  },
+                  "country_code": {
+                    "type": "string"
+                  },
+                  "language_code": {
+                    "type": "string"
+                  },
+                  "locality": {
+                    "type": "string"
+                  },
+                  "postal_code": {
+                    "type": "string"
                   }
                 },
                 "required": [
-                  "latitude",
-                  "longitude"
+                  "address_string",
+                  "locality",
+                  "postal_code",
+                  "country_code",
+                  "language_code"
                 ],
                 "type": "object"
               },
-              "id": {
-                "type": "string"
-              },
-              "label": {
-                "type": "string"
-              },
-              "notes": {
-                "type": "string"
-              },
-              "ports": {
-                "items": {
-                  "additionalProperties": false,
-                  "properties": {
-                    "authentications": {
-                      "items": {
-                        "additionalProperties": false,
-                        "properties": {
-                          "authentication_id": {
-                            "type": "string"
-                          },
-                          "payment_required": {
-                            "type": "boolean"
-                          }
-                        },
-                        "required": [
-                          "authentication_id",
-                          "payment_required"
-                        ],
-                        "type": "object"
-                      },
-                      "type": "array"
-                    },
-                    "charging_mechanism": {
-                      "type": "string"
-                    },
-                    "connector_type": {
-                      "type": "string"
-                    },
-                    "id": {
-                      "type": "string"
-                    },
-                    "last_updated": {
-                      "type": "string"
-                    },
-                    "notes": {
-                      "type": "string"
-                    },
-                    "port_status": {
-                      "items": {
-                        "additionalProperties": false,
-                        "properties": {
-                          "status": {
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "status"
-                        ],
-                        "type": "object"
-                      },
-                      "type": "array"
-                    },
-                    "power_kw": {
-                      "type": "number"
-                    },
-                    "reservable": {
-                      "type": "boolean"
-                    }
+              "contact": {
+                "additionalProperties": false,
+                "properties": {
+                  "operator_phone": {
+                    "type": "string"
                   },
-                  "required": [
-                    "id",
-                    "connector_type",
-                    "power_kw",
-                    "charging_mechanism",
-                    "port_status",
-                    "last_updated",
-                    "authentications",
-                    "notes",
-                    "reservable"
-                  ],
-                  "type": "object"
+                  "operator_website": {
+                    "type": "string"
+                  }
                 },
-                "type": "array"
+                "required": [
+                  "operator_phone",
+                  "operator_website"
+                ],
+                "type": "object"
+              },
+              "name": {
+                "type": "string"
               }
             },
             "required": [
-              "id",
-              "coordinates",
-              "ports",
-              "notes"
+              "name",
+              "address",
+              "contact"
             ],
             "type": "object"
           },
-          "type": "array"
-        }
+          "id": {
+            "type": "string"
+          },
+          "language_code": {
+            "type": "string"
+          },
+          "last_updated": {
+            "type": "string"
+          },
+          "network_brand_name": {
+            "type": "string"
+          },
+          "network_name": {
+            "type": "string"
+          },
+          "onstreet_location": {
+            "type": "boolean"
+          },
+          "opening_hours": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "hour_begin": {
+                  "type": "string"
+                },
+                "hour_end": {
+                  "type": "string"
+                },
+                "weekday_begin": {
+                  "type": "number"
+                },
+                "weekday_end": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "weekday_begin",
+                "weekday_end",
+                "hour_begin",
+                "hour_end"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "stations": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "coordinates": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "latitude": {
+                      "type": "number"
+                    },
+                    "longitude": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "latitude",
+                    "longitude"
+                  ],
+                  "type": "object"
+                },
+                "id": {
+                  "type": "string"
+                },
+                "label": {
+                  "type": "string"
+                },
+                "notes": {
+                  "type": "string"
+                },
+                "ports": {
+                  "items": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "authentications": {
+                        "items": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "authentication_id": {
+                              "type": "string"
+                            },
+                            "payment_required": {
+                              "type": "boolean"
+                            }
+                          },
+                          "required": [
+                            "authentication_id",
+                            "payment_required"
+                          ],
+                          "type": "object"
+                        },
+                        "type": "array"
+                      },
+                      "charging_mechanism": {
+                        "type": "string"
+                      },
+                      "connector_type": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "string"
+                      },
+                      "last_updated": {
+                        "type": "string"
+                      },
+                      "notes": {
+                        "type": "string"
+                      },
+                      "port_status": {
+                        "items": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "status": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "status"
+                          ],
+                          "type": "object"
+                        },
+                        "type": "array"
+                      },
+                      "power_kw": {
+                        "type": "number"
+                      },
+                      "reservable": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "connector_type",
+                      "power_kw",
+                      "charging_mechanism",
+                      "port_status",
+                      "last_updated",
+                      "authentications",
+                      "notes",
+                      "reservable"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "id",
+                "coordinates",
+                "ports",
+                "notes"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "network_brand_name",
+          "network_name",
+          "contact",
+          "coordinates",
+          "address",
+          "opening_hours",
+          "access_restriction",
+          "host",
+          "stations",
+          "onstreet_location",
+          "language_code",
+          "last_updated"
+        ]
       },
-      "required": [
-        "id",
-        "network_brand_name",
-        "network_name",
-        "contact",
-        "coordinates",
-        "address",
-        "opening_hours",
-        "access_restriction",
-        "host",
-        "stations",
-        "onstreet_location",
-        "language_code",
-        "last_updated"
-      ],
-      "type": "object"
+      "type": "array"
     }
   }
 }
