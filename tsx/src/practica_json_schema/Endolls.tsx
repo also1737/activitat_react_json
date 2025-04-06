@@ -19,9 +19,10 @@ interface PropsBarraCerca {
     setOrdenar: any
     cerca: any
     setCerca: any
+    tipusPunt: any
+    setTipusPunt: any
 }
-
-function BarraCerca({ordenar, setOrdenar, cerca, setCerca}: PropsBarraCerca) {
+function BarraCerca({ordenar, setOrdenar, cerca, setCerca, tipusPunt, setTipusPunt}: PropsBarraCerca) {
 
     return (
         <form className="caixa">
@@ -32,13 +33,41 @@ function BarraCerca({ordenar, setOrdenar, cerca, setCerca}: PropsBarraCerca) {
                 onChange={(e) => setCerca(e.target.value)}
             />
             <br />
-            <span>Filtres:</span>
+            <p>Filtres:</p>
             <label>
-                Ordenar per Codi Postal
+                Ordenar per Codi Postal: 
                 <input
                     type="checkbox"
                     checked={ordenar}
                     onChange={(e) => setOrdenar(e.target.checked)}
+                />
+            </label>
+            <label>
+                Tipus de punt:
+                Sobre carrer
+                <input 
+                    type="radio"
+                    name="tipus"
+                    value="carrer"
+                    checked={tipusPunt === 'carrer'}
+                    onChange={(e) => setTipusPunt(e.target.value)}
+                />
+                Parking
+                <input 
+                    type="radio"
+                    name="tipus"
+                    value="parking"
+                    checked={tipusPunt === 'parking'}
+                    onChange={(e) => setTipusPunt(e.target.value)}
+                />
+                Tots
+                <input 
+                    type="radio"
+                    name="tipus"
+                    value="dos"
+                    checked={tipusPunt === 'dos'}
+                    defaultChecked
+                    onChange={(e) => setTipusPunt(e.target.value)}
                 />
             </label>
         </form>
@@ -125,9 +154,10 @@ function BotonRender({estado, setEstado, endoll, texto}: PropsBoton) {
 interface PropsTaulaPunts {
     endolls: Localitzacio[],
     ordenar: boolean,
-    cerca: string
+    cerca: string,
+    tipusPunt: string
 }
-function TaulaPuntsRecarrega({endolls, ordenar, cerca}: PropsTaulaPunts) {
+function TaulaPuntsRecarrega({endolls, ordenar, cerca, tipusPunt}: PropsTaulaPunts) {
     
     const caixes: ReactNode[] = [];
     const endollsCopia: Localitzacio[] = [...endolls];
@@ -139,13 +169,17 @@ function TaulaPuntsRecarrega({endolls, ordenar, cerca}: PropsTaulaPunts) {
 
     endollsCopia.forEach( (endoll) => {
         
-        if (endoll.address.address_string.indexOf(cerca) === -1) return;
+        if (endoll.address.address_string.toLowerCase().indexOf(cerca.toLowerCase()) === -1) return;
+        
+        if (endoll.onstreet_location && tipusPunt === 'parking') return;
+        if (!endoll.onstreet_location && tipusPunt === 'carrer') return;
         
         caixes.push(
             <PuntRecarrega 
                 {...endoll}
-                />
+            />
         )
+        
     });
 
     return(
@@ -197,8 +231,7 @@ export default function Endolls() {
 
     const [ordenar, setOrdenar] = useState(false);
     const [cerca, setCerca] = useState('');
-
-    console.log("es array: " + Array.isArray(endolls) );
+    const [tipusPunt, setTipusPunt] = useState('');
 
     return (
         <>
@@ -208,12 +241,14 @@ export default function Endolls() {
                 setOrdenar={setOrdenar}
                 cerca={cerca}
                 setCerca={setCerca}
-
+                tipusPunt={tipusPunt}
+                setTipusPunt={setTipusPunt}
             />
             <TaulaPuntsRecarrega 
                 endolls={endolls}
                 ordenar={ordenar}
                 cerca={cerca}
+                tipusPunt={tipusPunt}
             />
         </>
         
